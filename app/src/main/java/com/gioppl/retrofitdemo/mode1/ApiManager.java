@@ -1,4 +1,4 @@
-package com.gioppl.retrofitdemo;
+package com.gioppl.retrofitdemo.mode1;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.gioppl.retrofitdemo;
+package com.gioppl.retrofitdemo.mode1;
 
 /**
  * create time：2019/4/11 13:24

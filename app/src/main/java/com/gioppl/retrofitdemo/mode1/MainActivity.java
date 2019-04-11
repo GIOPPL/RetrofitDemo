@@ -1,16 +1,20 @@
-package com.gioppl.retrofitdemo;
+package com.gioppl.retrofitdemo.mode1;
 
+import android.annotation.SuppressLint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.gioppl.retrofitdemo.R;
+
 import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+@SuppressLint("Registered")
 public class MainActivity extends AppCompatActivity {
     private TextView tv_main;
     @Override
