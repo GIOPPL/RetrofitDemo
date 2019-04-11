@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onNext(List<MyJoke> myJokes) {
                 Log.d("MAIN", "获取数据完成" + myJokes.size());
+                tv_main.setText(myJokes.get(0).getTitle());
             }
 
             @Override

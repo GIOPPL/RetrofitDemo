@@ -11,40 +11,35 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class HttpMethods {
+class HttpMethods {
 
     private static final String BASE_URL = "http://api.laifudao.com/open/";
     private static final int TIME_OUT=4;
-    private Retrofit retrofit;
     private ApiService apiService;
 
     private HttpMethods() {
-        /**
-         * 构造函数私有化
-         * 并在构造函数中进行retrofit的初始化
-         */
         OkHttpClient client=new OkHttpClient();
         client.newBuilder().connectTimeout(TIME_OUT, TimeUnit.SECONDS);
 
-        retrofit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
-        apiService=retrofit.create(ApiService.class);
+        apiService= retrofit.create(ApiService.class);
     }
 
 
     private static class sinalInstance {
-        public static final HttpMethods instance = new HttpMethods();
+         static final HttpMethods instance = new HttpMethods();
     }
 
-    public  static HttpMethods getInstance(){
+      static HttpMethods getInstance(){
         return sinalInstance.instance;
     }
 
-    public void getJoke(Observer<List<MyJoke>> observer){
+     void getJoke(Observer<List<MyJoke>> observer){
 
         apiService.getData()
                 .subscribeOn(Schedulers.io())
