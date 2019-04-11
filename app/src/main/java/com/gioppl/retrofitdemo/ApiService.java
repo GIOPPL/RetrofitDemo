@@ -1,20 +1,19 @@
 package com.gioppl.retrofitdemo;
 
+
 import java.util.List;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 
 /**
- * create time：2019/4/11 11:34
- * creater：17664
- * desc:
+ * Created by zt on 2017/3/10.
  */
-public interface ApiManager {
 
+public interface ApiService {
     /**
      * 来福笑话接口
-     *@return List<>
+     * @return List<MyJoke>
      */
     @GET("xiaohua.json")
     Observable<List<MyJoke>> getData();

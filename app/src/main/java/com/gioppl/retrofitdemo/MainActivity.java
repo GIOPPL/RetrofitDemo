@@ -3,12 +3,13 @@ package com.gioppl.retrofitdemo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+
+import java.util.List;
+
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 public class MainActivity extends AppCompatActivity {
     private TextView tv_main;
@@ -17,36 +18,39 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tv_main=findViewById(R.id.tv_main);
-        getLogin();
+        getData();
     }
-    /**
-     * 登录！
-     */
-    private  void getLogin() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.douban.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        ApiManager apiService = retrofit.create(ApiManager.class);
+    public void getData() {
 
-        Call<DBean> call = apiService.getData("0", "1");
-        call.enqueue(new Callback<DBean>() {
+
+        HttpMethods.getInstance().getJoke(new Observer<List<MyJoke>>() {
+            Disposable d;
             @Override
-            public void onResponse(Call<DBean> call, Response<DBean> response) {
-                if (response.isSuccess()) {
-                    Log.i("AAAAA",response.body().getTitle());
-                    tv_main.setText(response.body().getTitle());
-                } else {
-                    //直接操作UI 返回的respone被直接解析成你指定的modle
-                    Log.i("AAAAA","Failure");
-                }
+            public void onSubscribe(Disposable d) {
+                this.d=d;
             }
 
             @Override
-            public void onFailure(Call<DBean> call, Throwable t) {
-                Log.i("AAAAA","Failure");
-                // do onFailure代码
+            public void onNext(List<MyJoke> myJokes) {
+                Log.d("MAIN", "获取数据完成" + myJokes.size());
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d("MAIN", "error" + e.toString());
+                d.dispose();
+            }
+
+            @Override
+            public void onComplete() {
+                Log.d("MAIN", "onComplete");
+                d.dispose();
             }
         });
+
+    }
+
+    public void up(View view) {
+        getData();
     }
 }
